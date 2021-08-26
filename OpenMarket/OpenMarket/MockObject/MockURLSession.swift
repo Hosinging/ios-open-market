@@ -7,11 +7,7 @@
 
 import Foundation
 
-class MockURLSession: URLSessionProtocol, Equatable {
-    
-    static func == (lhs: MockURLSession, rhs: MockURLSession) -> Bool {
-        return true
-    }
+class MockURLSession: URLSessionProtocol {
     
     var isRequestSuccess: Bool
     init(isRequestSuccess: Bool) {

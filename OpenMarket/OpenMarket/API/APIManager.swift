@@ -29,8 +29,8 @@ class APIManager {
         guard let url = URL(string: "\(URI.fetchListPath)\(page)") else { return }
         let request = URLRequest(url: url)
         let task = session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print(error.localizedDescription)
+            guard error == nil else {
+                completion(.failure(APIError.requestFailed))
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
@@ -51,6 +51,7 @@ class APIManager {
         }
         task.resume()
     }
+    
     func createHTTPBody(parameters: HTTPBodyParameter?, media: [Media]?) -> Data {
     
         let lineBreak = "\r\n"
@@ -93,14 +94,15 @@ class APIManager {
         request.httpBody = createHTTPBody(parameters: parameters, media: media)
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
             guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                completion(.failure(APIError.invalidURL))
+                completion(.failure(APIError.unknown))
                 return
             }
             
-            if let error = error {
-                completion(.failure(APIError.emptyData))
-            }
             if let data = data {
                 completion(.success(data))
             }

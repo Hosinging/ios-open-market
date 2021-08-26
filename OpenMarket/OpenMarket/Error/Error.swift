@@ -10,5 +10,6 @@ import Foundation
 enum APIError: Error {
     case invalidURL
     case emptyData
+    case requestFailed
     case unknown
 }
