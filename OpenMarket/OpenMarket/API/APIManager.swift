@@ -83,7 +83,7 @@ class APIManager {
     }
     
     func registProduct(parameters: [String : Any], media: [Media], completion: @escaping (Result<Data, APIError>) -> ()) {
-        guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/item") else { return }
+        guard let url = URL(string: URI.registerPath) else { return }
         var request = URLRequest(url: url)
         
         let httpHeader = "multipart/form-data; boundary=\(boundary)"

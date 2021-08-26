@@ -16,8 +16,8 @@ class MockURLSession: URLSessionProtocol {
     var makedDataTask = MockURLSessionDataTask()
     
     func createSampleData() -> Data? {
-        let sampleJsonData = Bundle.main.path(forResource: "items", ofType: "json")
-        let sampleData = sampleJsonData?.data(using: .utf8)
+        guard let sampleJsonURL = Bundle.main.url(forResource: "Items", withExtension: "json") else { return nil }
+        let sampleData = try? Data(contentsOf: sampleJsonURL)
         return sampleData
     }
     
